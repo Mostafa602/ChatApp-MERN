@@ -1,1 +1,13 @@
 @import "tailwindcss";
+ @plugin "daisyui" {
+  themes: light --default, dark --prefersdark, forest, night;
+}
+
+
+body{
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
