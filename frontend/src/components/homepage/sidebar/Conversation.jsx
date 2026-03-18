@@ -1,24 +1,31 @@
 import React from 'react'
+import useConversation from '../../../zustand/useConversation'
 
-const Conversation = () => {
+const Conversation = ({conversation, lastInd}) => {
+
+  const {selectedConversation, setSelectedConversation} = useConversation();
+
+  const isSelected = selectedConversation?._id === conversation._id;
+
   return (
     <>
-        <div className='flex flex-row items-center p-2 py-1 rounded-md hover:bg-sky-500 cursor-pointer'>
+        <div className={`flex flex-row items-center p-2 py-1 rounded-md hover:bg-sky-500 cursor-pointer
+                ${isSelected ? "bg-sky-500" : ""}
+            `} onClick={() => setSelectedConversation(conversation)}>
             <div className='avatar avatar-online mr-2'>
                 <div>
-                    <img src="https://i.pravatar.cc/250?u=mail@ablaksh.co.uk" className='w-12 rounded-full' alt="user avatar" />
+                    <img src={conversation.profilePic} className='w-12 rounded-full' alt="user avatar" />
                 </div>
             </div>
             <div className='flex flex-col flex-1'>
                 <div className='flex gap-3 justify-between items-center'>
-                    <p className='font-bold text-gray-200'>El Moza</p>
-                    <span className='text-xl'>🔥</span>
+                    <p className='font-bold text-gray-200'>{conversation.fullName}</p>
                 </div>
             </div>
         </div>
 
         
-        <div className='divider my-0 py-0 h-1'></div>
+        {!lastInd && <div className='divider my-0 py-0 h-1'></div>}
     </>
   )
 }

@@ -1,22 +1,33 @@
 import React from 'react'
+import useConversation from '../../../zustand/useConversation';
+import { useAuthContext } from '../../../context/AuthContext';
 
-const Message = () => {
+
+const Message = ({message}) => {
+  const {authUser} = useAuthContext();
+
+  const {selectedConversation} = useConversation();
+  console.log(authUser.profilePic)
+  const notFromMe = message.senderId === selectedConversation._id;
+
+  const formattedTime = new Date(message.createdAt).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+
   return (
-    <div class="chat chat-start ">
-        <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
+    <div className={`chat ${notFromMe ? "chat-start" : "chat-end"}`}>
+        <div className="chat-image avatar">
+            <div className="w-10 rounded-full">
             <img
                 alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/profile/demo/kenobee@192.webp"
+                src={notFromMe ? selectedConversation.profilePic : authUser.profilePic}
             />
             </div>
         </div>
-        <div class="chat-header">
-            El Moza
-            <time class="text-xs opacity-50">12:45</time>
-        </div>
-        <div class="chat-bubble rounded-tl-xl rounded-tr-xl rounded-br-xl">You were the Chosen One!</div>
-        <div class="chat-footer opacity-50">Delivered</div>
+        <div className={`chat-bubble rounded-tl-xl rounded-tr-xl ${notFromMe ? " rounded-br-xl" : "rounded-bl-xl bg-sky-500"}`}>{message.message}</div>
+        <div className="chat-footer text-2xs "><time className="text-2xs opacity-50">{formattedTime}</time></div>
     </div>
   )
 }
