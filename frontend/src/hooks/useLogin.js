@@ -13,7 +13,7 @@ const useLogin = () => {
         if (!success) return;
         setLoading(true);
         try {
-            const promise = axios.post("http://localhost:5000/api/auth/login", {username, password}, {withCredentials: true});
+            const promise = axios.post("/api/auth/login", {username, password}, {withCredentials: true});
             const response = await toast.promise(promise, {
                 loading: 'Logging you in...',
                 success: "Logged in successfully",

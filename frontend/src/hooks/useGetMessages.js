@@ -11,7 +11,7 @@ const useGetMessages = () => {
         const getMessages = async () => {
             setLoading(true);
             try {   
-                const {data} = await axios.get(`http://localhost:5000/api/messages/${selectedConversation._id}`, {withCredentials: true});
+                const {data} = await axios.get(`/api/messages/${selectedConversation._id}`, {withCredentials: true});
 
                 console.log("Messages fetched successfully");
                 

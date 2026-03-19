@@ -10,7 +10,7 @@ const useLogout = () => {
     const logout = async () => {
         setLoading(true);
         try {
-            const promise = axios.post("http://localhost:5000/api/auth/logout", {} ,{withCredentials: true});
+            const promise = axios.post("/api/auth/logout", {} ,{withCredentials: true});
             const response = await toast.promise(promise, {
                 loading: 'Logging you out...',
                 success: "Logged out successfully",

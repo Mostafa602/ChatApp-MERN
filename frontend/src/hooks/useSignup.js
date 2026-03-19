@@ -36,7 +36,7 @@ const useSignup = () => {
     setLoading(true)
 
     try {
-        const promise = axios.post("http://localhost:5000/api/auth/signup", {
+        const promise = axios.post("/api/auth/signup", {
             fullName, username, password, confirmPassword, gender
         });
 
