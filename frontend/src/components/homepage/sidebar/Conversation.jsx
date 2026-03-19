@@ -1,9 +1,13 @@
 import React from 'react'
 import useConversation from '../../../zustand/useConversation'
+import { useSocketContext } from '../../../context/SocketContext';
 
 const Conversation = ({conversation, lastInd}) => {
 
   const {selectedConversation, setSelectedConversation} = useConversation();
+  const {onlineUsers} = useSocketContext();
+
+  const isOnline = onlineUsers.includes(conversation._id)
 
   const isSelected = selectedConversation?._id === conversation._id;
 
@@ -12,7 +16,7 @@ const Conversation = ({conversation, lastInd}) => {
         <div className={`flex flex-row items-center p-2 py-1 rounded-md hover:bg-sky-500 cursor-pointer
                 ${isSelected ? "bg-sky-500" : ""}
             `} onClick={() => setSelectedConversation(conversation)}>
-            <div className='avatar avatar-online mr-2'>
+            <div className={`avatar ${isOnline && "avatar-online"} mr-2`}>
                 <div>
                     <img src={conversation.profilePic} className='w-12 rounded-full' alt="user avatar" />
                 </div>

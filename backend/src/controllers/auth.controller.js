@@ -6,6 +6,13 @@ import bcrypt from "bcryptjs"
 export const signup = async (req, res) => {
     try {
         const {fullName, username, password, confirmPassword, gender} = req.body;
+
+        if (!fullName || !username || !password || !confirmPassword || !gender) {
+            return res.status(400).json({
+                message: "All fields are required"
+            });
+        }
+
         if (password != confirmPassword) {
             return res.status(400).json({message: "Passwords doesn't match"});
         }
@@ -30,7 +37,12 @@ export const signup = async (req, res) => {
             generateTokenAndSetCookie(newUser._id, res);
 
             await newUser.save();
-            return res.status(201).json({message: "User Created Successfully", user: newUser});
+            return res.status(201).json({
+                _id: newUser._id,
+                fullName: newUser.fullName,
+                username: newUser.username,
+                profilePic: newUser.profilePic
+            });
         } else {
             return res.status(400).json({message: "Invalid User data"});
         }
@@ -44,6 +56,12 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const {username, password} = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({
+                message: "Username and password are required"
+            });
+        }
         const user = await User.findOne({username});
         const isPassCorrect = await bcrypt.compare(password, user?.password || "");
         if (!user || !isPassCorrect) {
@@ -53,8 +71,11 @@ export const login = async (req, res) => {
         generateTokenAndSetCookie(user._id, res);
 
         res.status(200).json({
-            user
-        })
+            _id: user._id,
+            fullName: user.fullName,
+            username: user.username,
+            profilePic: user.profilePic
+        });
 
     } catch(err) {  
         console.log("Error in login controller", err.message);
